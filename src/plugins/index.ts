@@ -5,6 +5,7 @@ import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { Plugin } from 'payload'
+import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -25,6 +26,15 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
+  uploadthingStorage({
+    collections: {
+      media: true,
+    },
+    options: {
+      token: process.env.UPLOADTHING_TOKEN,
+      acl: 'public-read',
+    },
+  }),
   redirectsPlugin({
     collections: ['pages', 'posts'],
     overrides: {
