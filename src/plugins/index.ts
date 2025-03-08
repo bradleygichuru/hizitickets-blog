@@ -26,15 +26,6 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
-  uploadthingStorage({
-    collections: {
-      media: true,
-    },
-    options: {
-      token: process.env.UPLOADTHING_TOKEN,
-      acl: 'public-read',
-    },
-  }),
   redirectsPlugin({
     collections: ['pages', 'posts'],
     overrides: {
@@ -55,6 +46,15 @@ export const plugins: Plugin[] = [
       hooks: {
         afterChange: [revalidateRedirects],
       },
+    },
+  }),
+  uploadthingStorage({
+    collections: {
+      media: true,
+    },
+    options: {
+      token: process.env.UPLOADTHING_TOKEN,
+      acl: 'public-read',
     },
   }),
   nestedDocsPlugin({
